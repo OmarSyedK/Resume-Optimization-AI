@@ -104,7 +104,7 @@ b {
 # --- 3. Build the User Interface (UI) ---
 
 st.title("🤖 AI Resume Optimizer")
-st.markdown("Upload your resume (PDF) and paste the job description to get a tailored version in seconds.")
+st.markdown("Upload your resume (PDF) and the job description(along with any additional changes you want) to get a tailored version in seconds.")
 
 # Create two columns for inputs
 col1, col2 = st.columns(2)
@@ -113,7 +113,7 @@ with col1:
     uploaded_file = st.file_uploader("Upload Your Resume (PDF)", type=["pdf"])
 
 with col2:
-    job_description = st.text_area("Paste the Job Description", height=300,
+    job_description = st.text_area("Enter the Job Description and any other changes or additions you want.", height=300,
                                    placeholder="Paste the full job description here...")
 
 # Submit button
@@ -227,4 +227,5 @@ if submit_button:
 
             except Exception as e:
                 st.error(f"An unexpected error occurred: {e}")
+
                 st.exception(e)  # Provides a full traceback for debugging
