@@ -49,62 +49,112 @@ generation_config = genai.GenerationConfig(
     }
 )
 
-# Professional CSS for PDF styling
+# --- 2. Define Professional CSS matching the image ---
 resume_style = """
+@page {
+    size: A4;
+    margin: 1in;
+}
+
 body {
-    font-family: 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    line-height: 1.6;
-    color: #2c3e50;
+    font-family: 'Helvetica', 'Arial', sans-serif;
+    line-height: 1.4;
+    color: #333;
     background-color: #fff;
-    margin: 40px;
-    font-size: 11pt;
-}
-h1 {
-    font-size: 24pt;
-    color: #1a1a1a;
-    text-align: center;
-    margin-bottom: 5px;
-    font-weight: 400;
-    letter-spacing: 0.5px;
-}
-/* Contact info under name */
-.contact-info {
-    text-align: center;
+    margin: 0;
+    padding: 0;
     font-size: 10pt;
+}
+
+/* Name and Title Section */
+h1 {
+    font-size: 32pt;
+    color: #333;
+    text-align: center;
+    margin-bottom: 0;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.job-title {
+    text-align: center;
+    font-size: 14pt;
+    color: #333;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* Contact Info Bar */
+.contact-info {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 9pt;
     color: #555;
     margin-bottom: 20px;
+    border-bottom: 1px solid #000;
+    padding-bottom: 15px;
 }
+
+/* Section Headings */
 h2 {
-    font-size: 13pt;
-    color: #ffffff;
-    background-color: #2c3e50;
-    padding: 6px 10px;
-    margin-top: 28px;
-    margin-bottom: 12px;
-    border-radius: 4px;
-    font-weight: 500;
-}
-ul {
-    padding-left: 18px;
-    margin-top: 5px;
+    font-size: 12pt;
+    color: #000;
+    text-align: left;
+    margin-top: 20px;
     margin-bottom: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Horizontal Dividers after sections */
+h2::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 1px;
+    background: #000;
+    margin-top: 10px;
+}
+
+/* List and Text Formatting */
+ul {
+    padding-left: 15px;
+    margin-top: 5px;
     list-style-type: disc;
 }
+
 li {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
 }
+
 p {
-    margin: 0 0 6px 0;
+    margin: 5px 0;
+    text-align: justify;
 }
-b {
-    color: #2c3e50;
+
+/* Date and Company Formatting */
+.entry-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: normal;
+    color: #666;
+    margin-bottom: 2px;
+}
+
+.job-position {
+    font-weight: bold;
+    font-size: 11pt;
+    display: block;
 }
 """
 
 # --- 3. Build the User Interface (UI) ---
 
 st.title("🤖 AI Resume Optimizer")
-st.markdown("Upload your resume (PDF) and the job description(along with any additional changes you want) to get a tailored version in seconds.")
+st.markdown("Upload your resume (PDF) and paste the job description to get a tailored version in seconds.")
 
 # Create two columns for inputs
 col1, col2 = st.columns(2)
@@ -113,7 +163,7 @@ with col1:
     uploaded_file = st.file_uploader("Upload Your Resume (PDF)", type=["pdf"])
 
 with col2:
-    job_description = st.text_area("Enter the Job Description and any other changes or additions you want.", height=300,
+    job_description = st.text_area("Paste the Job Description", height=300,
                                    placeholder="Paste the full job description here...")
 
 # Submit button
@@ -227,5 +277,4 @@ if submit_button:
 
             except Exception as e:
                 st.error(f"An unexpected error occurred: {e}")
-
                 st.exception(e)  # Provides a full traceback for debugging
